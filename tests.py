@@ -33,7 +33,7 @@ class TestParsing(unittest.TestCase):
         m = Markov(2)
         m.scan(['bacon', 'fish', 'bacon', 'lung',
                 'bacon', 'lung', 'bacon', 'lung',  '.'])
-        result = m.compute_probabilities()
+        result = m.compute_probabilities(3)
         self.assertEquals(len(result), 3)
 
         # least likely to most
@@ -43,8 +43,6 @@ class TestParsing(unittest.TestCase):
         self.assertEquals(result[1]['chance'], 3.0/8.0)
         self.assertEquals(result[2]['word'], 'bacon')
         self.assertEquals(result[2]['chance'], 0.5)
-        
-
         
 if __name__ == '__main__':
     unittest.main()
