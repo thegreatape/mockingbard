@@ -12,15 +12,21 @@ class Markov:
     def compute_probabilities(self, limit, chain=None):
         chain = chain or self.chains
         probabilities = []
+        highest = 0.0
         if limit and len(chain):
             total = sum([i['count'] for i in chain.values()])
             norm = 1/total if total > 0 else 1
             for (token, subchain) in chain.items():
-                probabilities.append({ 'chance': subchain['count'] * norm,
+                chance = subchain['count'] * norm
+                highest = max(highest, chance)
+                probabilities.append({ 'chance': chance,
                                        'word':   token,
                                        'next':   self.compute_probabilities(limit-1, subchain['next']) if 'next' in subchain else []
                                        })
             probabilities.sort(lambda a,b: cmp(a['chance'], b['chance']))
+            # normalize to highest chance 
+            for prob in probabilities:
+                prob['chance'] *= 1.0/highest
         return probabilities
     
     def scan(self, tokens):
@@ -71,5 +77,4 @@ if __name__ == "__main__":
     import sys
     m = Markov()
     m.add(open(sys.argv[1]).read())
-    #print m.probabilities[-1]
     print m.generate(79)

@@ -38,11 +38,11 @@ class TestParsing(unittest.TestCase):
 
         # least likely to most
         self.assertEquals(result[0]['word'], 'fish')
-        self.assertEquals(result[0]['chance'], 1.0/8.0)
+        self.assertEquals(result[0]['chance'], 1.0/8.0 * (1.0 / 0.5))
         self.assertEquals(result[1]['word'], 'lung')
-        self.assertEquals(result[1]['chance'], 3.0/8.0)
+        self.assertEquals(result[1]['chance'], 3.0/8.0 * (1.0 / 0.5))
         self.assertEquals(result[2]['word'], 'bacon')
-        self.assertEquals(result[2]['chance'], 0.5)
+        self.assertEquals(result[2]['chance'], 0.5 * (1.0 / 0.5))
         
 if __name__ == '__main__':
     unittest.main()
