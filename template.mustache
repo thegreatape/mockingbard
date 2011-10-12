@@ -1,0 +1,97 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=7" />
+  <meta content="authenticity_token" name="csrf-param" /><meta content="XiT0oGwlyddO07GtcRVO+ZBk27VUX258oyx0ccs5kWQ=" name="csrf-token" />
+  <title>Campfire: Today, October 11</title>
+  <link href="http://{{domain}}.campfirenow.com/stylesheets/screen.css?1318376347" media="all" rel="stylesheet" type="text/css" />
+  <link href="http://{{domain}}.campfirenow.com/stylesheets/launchbar.css?1318376347" media="all" rel="stylesheet" type="text/css" />
+  <link href="http://{{domain}}.campfirenow.com/stylesheets/emoji.css?1318376347" media="all" rel="stylesheet" type="text/css" />
+  
+  <link href="http://{{domain}}.campfirenow.com/stylesheets/print.css?1318376347" media="print" rel="stylesheet" type="text/css" />
+	<link rel="icon" href="http://{{domain}}.campfirenow.com/images/chromeicon-32x32.png" sizes="32x32"/>
+	<link rel="icon" href="http://{{domain}}.campfirenow.com/images/chromeicon-48x48.png" sizes="48x48"/>
+  <link href="http://{{domain}}.campfirenow.com/stylesheets/blue.css?1318376347" media="screen" rel="stylesheet" title="Theme" type="text/css" />
+  
+</head>
+
+<body class="transcript">
+
+  <div id="Wrapper">
+    <div id="Container">
+
+<div class="Left">
+  <div class="col">
+    <div id="print_container">
+      <div id="print">
+        <a href="javascript:print()"><img alt="Print" height="17" src="/images/printer.gif?1318376347" width="25" /></a>      
+      </div>
+    </div>
+
+    <h1 class="date">Randomly Generated Campfire Logs!</h1>
+    
+
+    <div id="chat-wrapper">
+      <table class="chat">
+        <tbody id="chat">
+          <style type='text/css'>
+      table.chat tr.upload_message.user_926046 td, table.chat tr.sound_message.user_926046 td, table.chat tr.text_message.user_926046 td, table.chat tr.paste_message.user_926046 td {
+        background-color: #ffc;
+      }
+    </style>
+
+
+    {{#messages}}
+      <tr class="text_message message"><td class="person"><span class="author">{{name}}</span></td>
+          <td class="body">
+            <div class="body">{{message}}</div>
+            <span class="star ">
+          <strong></strong>
+        </span>
+          </td>
+        </tr>
+    {{/messages}}
+
+
+        </tbody>
+      </table>
+      <style type="text/css">#chat td.body div {}</style>
+    </div>
+
+
+  </div>
+  <div class="bottom">&nbsp;</div>
+</div>
+
+<div class="Right">
+  <div class="col">
+    <div id="Title">
+      <div id="room_title">
+        <h1>{{room}}</h1>
+      </div>
+    </div>
+
+    <div class="participants">
+      <h3>People in this transcript</h3>
+
+      <ul id="participants">
+        {{#users}}
+        <li>{{name}}</li>
+        {{/users}}
+      </ul>
+    </div>
+
+    <div class="files">
+    </div>
+
+  </div>
+</div>
+
+    </div>
+  </div>
+</body>
+</html>
+

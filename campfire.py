@@ -1,4 +1,7 @@
 import sys
+import re
+import random
+import pystache
 from collections import defaultdict
 from pinder import Campfire
 from optparse import OptionParser
@@ -42,7 +45,20 @@ if __name__ == "__main__":
           users[username].add(msg['body'])
     sys.stdout.write("processed %d messages\n" % len(transcripts))
 
-
-  for user, generator in users.items():
+  for generator in users.values():
     generator.compute()
-    print "%s : %s " % (user, generator.generate(17))
+
+  abbr = lambda i: re.sub(r'(\w+)\s+(\w)\w+', r'\1 \2.', i)
+
+  messages = []
+  for i in range(0, 100):
+      user = random.choice(users.keys())
+      messages.append({'name': abbr(user), 'message': users[user].generate(int(random.random() * 20)+5)})
+
+  scope = { 'messages' : messages,
+            'users' : [{'name': u} for u in users.keys()],
+            'domain': options.domain,
+            'room': options.room
+          }
+  open('out.html', 'w+').write(pystache.render(open('template.mustache').read(), scope))
+  print "transcript written to out.html"
