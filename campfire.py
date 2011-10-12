@@ -9,23 +9,9 @@ from pinder import Campfire
 from optparse import OptionParser
 from datetime import date, timedelta
 from markov import Markov
+from bottle import route, run
 
-if __name__ == "__main__":
-  parser = OptionParser()
-  parser.add_option("-t", "--token", dest="token", 
-      help="Your Campfire API auth token")
-  parser.add_option("-d", "--domain", dest="domain", 
-      help="Campfire subdomain to use")
-  parser.add_option("-r", "--room", dest="room", 
-      help="Name of room to use")
-  parser.add_option("-n", "--num_days", dest="days",
-      help="Number of days to go back for source material.")
-  parser.add_option("-o", "--order", dest="order", default="2",
-      help="Order of markov chain to use. Defaults to 2.")
-  parser.add_option("-i", "--ignore", dest="ignore", default="",
-      help="Comma separated names of users to ignore.")
-
-  (options, args) = parser.parse_args()
+def load():
   campfire = Campfire(options.domain, options.token)
   room = campfire.find_room_by_name(options.room)
   users = defaultdict(lambda: Markov(int(options.order)))
@@ -62,8 +48,10 @@ if __name__ == "__main__":
   print "computing probability trees ... "
   for generator in users.values():
     generator.compute()
+  return users
 
-  print "generating messages ... "
+@route('/')
+def generate():
   abbr = lambda i: re.sub(r'(\w+)\s+(\w)[\w-]+', r'\1 \2.', i)
   messages = []
   for i in range(0, 100):
@@ -75,5 +63,25 @@ if __name__ == "__main__":
             'domain': options.domain,
             'room': options.room
           }
-  open('out.html', 'w+').write(pystache.render(open('template.mustache').read().encode('utf-8'), scope))
-  print "transcript written to out.html"
+  return pystache.render(open('template.mustache').read().encode('utf-8'), scope).encode('utf-8', 'ignore')
+
+parser = OptionParser()
+parser.add_option("-t", "--token", dest="token", 
+  help="Your Campfire API auth token")
+parser.add_option("-d", "--domain", dest="domain", 
+  help="Campfire subdomain to use")
+parser.add_option("-r", "--room", dest="room", 
+  help="Name of room to use")
+parser.add_option("-n", "--num_days", dest="days",
+  help="Number of days to go back for source material.")
+parser.add_option("-o", "--order", dest="order", default="2",
+  help="Order of markov chain to use. Defaults to 2.")
+parser.add_option("-i", "--ignore", dest="ignore", default="",
+  help="Comma separated names of users to ignore.")
+
+(options, args) = parser.parse_args()
+users = load()
+import bottle
+bottle.debug(True)
+run(host='localhost', port=8080)
+print "ready!"

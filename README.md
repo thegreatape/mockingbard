@@ -3,7 +3,10 @@ Use Markov chains to generate real-ish looking gibberish from Campfire logs or a
 
 ## Requires
 [pystache](https://github.com/defunkt/pystache)
+
 [pinder](https://github.com/rhymes/pinder)
+
+[bottle](http://bottlepy.org/)
 
 ## Usage
     Usage: campfire.py [options]
@@ -21,3 +24,5 @@ Use Markov chains to generate real-ish looking gibberish from Campfire logs or a
                             Order of markov chain to use. Defaults to 2.
       -i IGNORE, --ignore=IGNORE
                             Comma separated names of users to ignore.
+
+This will start an HTTP server that'll server out fake campfire log transcripts on port 8080. Have fun!
