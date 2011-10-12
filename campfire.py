@@ -1,3 +1,5 @@
+import os
+import pickle
 import sys
 import re
 import random
@@ -35,9 +37,21 @@ if __name__ == "__main__":
       names[user] = campfire.user(user)['user']['name']
     return names[user]
 
+  if not os.path.exists('cache'):
+      os.makedirs('cache')
+
   for i in range(0, int(options.days)):
-    sys.stdout.write("fetching %s ... " % (date.today() - timedelta(i)))
-    transcripts = room.transcript(date.today() - timedelta(i))
+    day = date.today() - timedelta(i)
+    path = os.path.join('cache', str(day))
+    transcripts = None
+    if os.path.exists(path):
+      sys.stdout.write("got %s from cache ... " % day)
+      transcripts = pickle.loads(open(path).read())
+    else:
+      sys.stdout.write("fetching %s from campfire ... " % day)
+      transcripts = room.transcript(date.today() - timedelta(i))
+      open(path, 'w+').write(pickle.dumps(transcripts))
+
     for msg in transcripts:
       if msg['user_id'] and msg['body']:
         username = name(msg['user_id'])
