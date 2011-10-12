@@ -64,7 +64,7 @@ if __name__ == "__main__":
     generator.compute()
 
   print "generating messages ... "
-  abbr = lambda i: re.sub(r'(\w+)\s+(\w)\w+', r'\1 \2.', i)
+  abbr = lambda i: re.sub(r'(\w+)\s+(\w)[\w-]+', r'\1 \2.', i)
   messages = []
   for i in range(0, 100):
       user = random.choice(users.keys())
@@ -75,5 +75,5 @@ if __name__ == "__main__":
             'domain': options.domain,
             'room': options.room
           }
-  open('out.html', 'w+').write(pystache.render(open('template.mustache').read(), scope))
+  open('out.html', 'w+').write(pystache.render(open('template.mustache').read().encode('utf-8'), scope))
   print "transcript written to out.html"
