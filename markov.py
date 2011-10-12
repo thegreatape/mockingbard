@@ -8,6 +8,7 @@ class Markov:
         record = lambda: {'count': 0.0, 'next': defaultdict(record)}
         self.chains = defaultdict(record)
         self.probabilities = []
+        self.tokens = []
 
     def compute_probabilities(self, limit, chain=None):
         chain = chain or self.chains
@@ -58,6 +59,8 @@ class Markov:
 
             # roll the dice and pick a word based on the current table
             rand = random()
+            if len(current_table) == 0:
+                continue
             chosen = current_table[-1]['word']
             for token in current_table:
                 if rand < token['chance']:
@@ -67,7 +70,10 @@ class Markov:
         return words
 
     def add(self, input):
-        self.scan(self.tokenize(input))
+        self.tokens.extend(self.tokenize(input))
+
+    def compute(self):
+        self.scan(self.tokens)
         self.probabilities = self.compute_probabilities(self.order)
 
     def generate(self, length):
@@ -77,4 +83,6 @@ if __name__ == "__main__":
     import sys
     m = Markov()
     m.add(open(sys.argv[1]).read())
+    m.add(open(sys.argv[2]).read())
+    m.compute()
     print m.generate(79)
