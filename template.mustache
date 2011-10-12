@@ -16,6 +16,17 @@
 	<link rel="icon" href="http://{{domain}}.campfirenow.com/images/chromeicon-48x48.png" sizes="48x48"/>
   <link href="http://{{domain}}.campfirenow.com/stylesheets/blue.css?1318376347" media="screen" rel="stylesheet" title="Theme" type="text/css" />
   
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.author').each(function(i, e){ 
+        var el = $(e);
+        if(el.text() == el.closest('tr').prev().find('.author').text()){
+          el.hide()
+        }
+      });
+     });
+  </script>
 </head>
 
 <body class="transcript">
