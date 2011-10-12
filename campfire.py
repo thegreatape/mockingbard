@@ -56,14 +56,15 @@ if __name__ == "__main__":
       if msg['user_id'] and msg['body']:
         username = name(msg['user_id'])
         if not username in ignore:
-          users[username].add(msg['body'])
+          users[username].add(msg['body'].encode('utf-8'))
     sys.stdout.write("processed %d messages\n" % len(transcripts))
 
+  print "computing probability trees ... "
   for generator in users.values():
     generator.compute()
 
+  print "generating messages ... "
   abbr = lambda i: re.sub(r'(\w+)\s+(\w)\w+', r'\1 \2.', i)
-
   messages = []
   for i in range(0, 100):
       user = random.choice(users.keys())
